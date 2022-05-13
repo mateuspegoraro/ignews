@@ -1,9 +1,9 @@
-import {query as q} from 'faunadb'
-import NextAuth from "next-auth"
-import GithubProvider from "next-auth/providers/github"
+import { query as q } from "faunadb";
+import NextAuth from "next-auth";
+import GithubProvider from "next-auth/providers/github";
 
-import {fauna} from '../../../services/fauna'
- 
+import { fauna } from "../../../services/fauna";
+
 export default NextAuth({
   providers: [
     GithubProvider({
@@ -19,29 +19,25 @@ export default NextAuth({
           q.If(
             q.Not(
               q.Exists(
-                q.Match(
-                  q.Index('user_by_email'),
-                  q.Casefold(user.email)
-                )
+                q.Match(q.Index("user_by_email"), q.Casefold(user.email))
               )
             ),
-            q.Create(q.Collection('users'), // THEN
+            q.Create(
+              q.Collection("users"), // THEN
               {
-                data: { email }
+                data: { email },
               }
             ),
-            q.Get( // ELSE
-              q.Match(
-                q.Index('user_by_email'),
-                q.Casefold(user.email)
-              )
+            q.Get(
+              // ELSE
+              q.Match(q.Index("user_by_email"), q.Casefold(user.email))
             )
           )
-        )
-        return true
+        );
+        return true;
       } catch (error) {
-        return false        
+        return false;
       }
     },
-  }
-})
+  },
+});
