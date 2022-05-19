@@ -1,0 +1,7 @@
+{
+  "_latest": "0.0.41",
+  "apiEndpoint": "https://ignews030192.prismic.io/api/v2",
+  "libraries": [
+    "@/slices"
+  ]
+}
