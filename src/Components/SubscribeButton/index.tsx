@@ -1,4 +1,4 @@
-import { signIn, getSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 import styles from "./styles.module.scss";
 import { api } from "../../services/api";
@@ -11,8 +11,9 @@ interface SubscribeButtonProps {
 
 export function SubscribeButton({ priceId }: SubscribeButtonProps) {
   const router = useRouter();
+  const {data: session} = useSession();
+
   async function handleSubscribe() {
-    const session = await getSession();
     if (!session) {
       signIn("github");
       return;
