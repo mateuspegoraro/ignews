@@ -1,4 +1,4 @@
-import { GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
@@ -54,10 +54,18 @@ export default function PostPreview({ post }: PostProps) {
   );
 }
 
-export const getStaticPaths = () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: [],
-    fallback: 'blocking'
+    paths: [
+      {
+        params: {
+          slug: 'obtendo-o-status-de-progresso-do-envio-de-dados-com'
+        }
+      }
+    ],
+    fallback: 'blocking', // (vai carregar pelo lado do SERVER se ainda nao foi carregado. Geralmente é a melhor opção)
+    // fallback: true (vai carregar pelo lado do CLIENTE se ainda nao foi carregado pelo server side. Pode causar quebra de layout (layout shift)), 
+    // fallback: false (vai retornar um 404 se o post nao foi carregado ainda pelo server side. É bom utilizar para páginas que exibem coisas que nao tendem a mudar), 
   }
 }
 
